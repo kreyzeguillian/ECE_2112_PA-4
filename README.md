@@ -71,7 +71,13 @@ Instru = df.loc[(df['Track'] == 'Instrumentation') &
                 ['Name', 'GEAS', 'Electronics']].reset_index(drop=1)
 Instru
 ```
-- The data frame `df` is indexed to create a new subset.
+- The data frame `df` is indexed using the `.loc[]` function to create a new subset named `Instru`.
+- `(df['Track'] == 'Instrumentation')` filters the rows where the `Track` column has the value `Instrumentation`.
+- `(df['Hometown'] == 'Luzon')` further filters the rows to only include those where the `Hometown` column has the value `Luzon.`
+- `(df['Electronics'] > 70)` ensures that only rows where the `Electronics` score is higher than 70 are selected.
+- The `&` operator combines these conditions to one single constrain, so only rows meeting all three conditions are included in the new data frame.
+- `['Name', 'GEAS', 'Electronics']` specifies the columns to be displayed.
+- Lastly, `.reset_index(drop=1)` resets the index of the newly filtered data frame and drops the original index.
 
 **Output of Cell 3**:  
 
@@ -93,8 +99,14 @@ Mindy = df.loc[(df['Hometown'] == 'Mindanao') &
                ['Name', 'Track', 'Electronics', 'Average']].reset_index(drop=1)
 Mindy
 ```
-- A column named `Average` is added and contains the average of the grades.
-- The data frame `df` is indexed to create a new subset.
+- A new column named `Average` is added to the original data frame `df`, which stores the average value of four columns: `Math`, `Electronics`, `GEAS`, and `Communication`.
+- `.mean(axis=1)` computes the mean across each row with respect to axis 1 since `axis=1` specifies row-wise operations.
+- The data frame `df` is filtered using the `.loc[]` function to contain a new subset named `Mindy`.
+- `(df['Hometown'] == 'Mindanao')` filters the rows where the `Hometown` is `Mindanao`.
+- `(df['Gender'] == 'Female')` further narrows the selection to include only rows where the `Gender` is `Female`.
+- `(df['Average'] >= 55)` ensures that only rows with an `Average` score of 55 or higher are included.
+- `['Name', 'Track', 'Electronics', 'Average']` selects the columns that will be shown in the final subset.
+- Finally, `.reset_index(drop=1)` resets the index and drops the original index of the initial data frame.
 
 **Output of Cell 4**:
 
@@ -109,7 +121,7 @@ Mindy
 
 #### DATA VISUALIZATION
 
-&nbsp;&nbsp;&nbsp;&nbsp;2. Create a visualization that shows how the different features contributes to average grade. Does chosen track in college, gender, or hometown contributes to a higher average score?
+&nbsp;&nbsp;&nbsp;&nbsp;2. Create a visualization that shows how the different features contributes to average grade.
 
 ### **Code/Explanations**:  
 
@@ -141,8 +153,22 @@ plotter('Track')
 # Function call to create a plot by 'Hometown'
 plotter('Hometown')
 ```
-- Three plots are created to visualize the features with respect to the average grades.
+- Since attributes are compared with a varying value which is `Average`, I figured that bar graph would be the best visualization plot for this exercise.
+#### Inside the plotter function:
+- Considering this, the `plotter` function is created and defined to simplify and avoid repetition in creating bar plots. It takes a single parameter `column`, which represents the column to be plotted along the x-axis.
+- `plt.figure(figsize = (5,6))` sets the figure's size to 5 inches in width and 6 inches in height.
+- `plt.bar(df[column], df['Average'])` creates a bar plot that has `df[column]` plotted on the x-axis, and `df['Average']` plotted on the y-axis.
+- `plt.title('Average Grades by ' + column)` sets the title of the plot, combining the column name to indicate which attribute is being plotted.
+- The function `plt.ylabel('Average Grade')` labels the y-axis as `"Average Grade"`.
+- Finally, `plt.show()` displays the resulting plot.
+#### Calling of function:
+- `plotter('Gender')` calls the `plotter` function to create a bar graph where `Gender` is the attribute being measured.
+- `plotter('Track')` also calls the `plotter` function to create another plot where `Track` is the characteristic being compared to.
+- Lastly, `plotter('Hometown')` calls the `plotter` function to generate a bar graph where `Hometown` is being considered.
 
 **Output of Cell 1**:
 
 <img src="https://github.com/kreyzeguillian/Programming-Assigments/blob/main/PA-4/ss4githubPA4.3.png" alt="Alt text" height="250"/><img src="https://github.com/kreyzeguillian/Programming-Assigments/blob/main/PA-4/ss4githubPA4.4.png" alt="Alt text" height="250"/><img src="https://github.com/kreyzeguillian/Programming-Assigments/blob/main/PA-4/ss4githubPA4.5.png" alt="Alt text" height="250"/>
+
+**Does chosen track in college, gender, or hometown contributes to a higher average score?**
+- Based on the three graphs generated, yes there seems to be some kind of linearity happening between gender, track, hometown and average score. In terms of gender, women seems to have an upperhand in achieving higher average score. In terms of track, those who chose microelectronics as their strand seems to have an advantage with gaining higher scores. In terms of hometown, it is those from luzon that achieved a higher score.
